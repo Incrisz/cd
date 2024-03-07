@@ -15,7 +15,10 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: www.ctaaccountants.co.za/
-        username: ${{ secrets.ftp_username }}
-        password: ${{ secrets.ftp_password }}
-        server-dir: /cd.ctaaccountants.co.za/
+        server: ftp.ctaaccountants.co.za
+        username: "incrisz@cd.ctaaccountants.co.za"
+        password: "}9xE&{[mEcAQ"
+        protocol: ftps
+        port: 21
+        local-dir:'./'
+
