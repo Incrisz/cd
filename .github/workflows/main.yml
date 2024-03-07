@@ -16,8 +16,10 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ftp.ctaaccountants.co.za
-        username: "incrisz@cd.ctaaccountants.co.za"
-        password: "}9xE&{[mEcAQ"
+        # username: "incrisz@cd.ctaaccountants.co.za"
+        # password: "}9xE&{[mEcAQ"
+        username: ${{ secrets.ftp_username }}
+        password: ${{ secrets.ftp_password }}
         protocol: ftps
         port: 21
         local-dir: './'
