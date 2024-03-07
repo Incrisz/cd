@@ -20,5 +20,5 @@ jobs:
         password: "}9xE&{[mEcAQ"
         protocol: ftps
         port: 21
-        local-dir:'./'
+        local-dir: './'
 
