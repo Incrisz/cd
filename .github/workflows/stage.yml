@@ -25,7 +25,8 @@ jobs:
         password: ${{ secrets.ftp_password }}
         protocol: ftps
         port: 21
-        # local-dir: './stage/'
+        local-dir: './stage/'
+        working-directory: ./cd
     - name: Debugging - Detailed Listing of 'stage' Folder
       run: |
         pwd
