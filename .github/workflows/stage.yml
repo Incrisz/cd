@@ -11,9 +11,6 @@ jobs:
     steps:
     - name: 🚚 Get latest code
       uses: actions/checkout@v4
-    # - name: 📂 Change to 'stage' directory
-    #     run: 
-    #     cd ./stage/
 
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -25,7 +22,7 @@ jobs:
         password: ${{ secrets.ftp_password }}
         protocol: ftps
         port: 21
-        local-dir: './'
-      working-directory: './stage/'
+        local-dir: './stage/'
+
 
   
