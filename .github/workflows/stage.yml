@@ -26,6 +26,6 @@ jobs:
         protocol: ftps
         port: 21
         local-dir: './'
-      working-directory: ./stage/
+      working-directory: "./stage/"
 
   
