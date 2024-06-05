@@ -72,3 +72,52 @@ jobs:
           username: ${{ env.FTP_USERNAME }}
           password: ${{ env.FTP_PASSWORD }}
 
+
+
+
+
+
+
+
+
+# OPTIMIZED CODE
+
+name: 🚀 Deploy website on push
+
+on:
+  push:
+    branches:
+      - main
+      - features/dev
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: Set FTP Credentials
+        id: set-ftp-credentials
+        run: |
+          if [[ "${{ github.ref }}" == 'refs/heads/features/dev' ]]; then
+            echo "FTP_USERNAME=${{ secrets.ftp_username_dev }}" >> $GITHUB_ENV
+            echo "FTP_PASSWORD=${{ secrets.ftp_password_dev }}" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == 'refs/heads/main' ]]; then
+            echo "FTP_USERNAME=${{ secrets.ftp_username_portal }}" >> $GITHUB_ENV
+            echo "FTP_PASSWORD=${{ secrets.ftp_password_portal }}" >> $GITHUB_ENV
+          else
+            echo "No matching branch found for setting FTP credentials." >&2
+            exit 1
+          fi
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.peernetics_host }}
+          protocol: ftps
+          port: 21
+          local-dir: './'
+          username: ${{ env.FTP_USERNAME }}
+          password: ${{ env.FTP_PASSWORD }}
