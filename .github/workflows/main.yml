@@ -35,10 +35,6 @@ jobs:
 # TWO BRANCHES DEPLOYMENT
 
 
-
-
-
-
 name: 🚀 Deploy website on push
 
 on:
@@ -55,50 +51,24 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
 
+      - name: Set FTP Credentials
+        id: set-ftp-credentials
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/features/dev' ]]; then
+            echo "FTP_USERNAME=${{ secrets.ftp_username_dev }}" >> $GITHUB_ENV
+            echo "FTP_PASSWORD=${{ secrets.ftp_password_dev }}" >> $GITHUB_ENV
+          else
+            echo "FTP_USERNAME=${{ secrets.ftp_username_portal }}" >> $GITHUB_ENV
+            echo "FTP_PASSWORD=${{ secrets.ftp_password_portal }}" >> $GITHUB_ENV
+          fi
+
       - name: 📂 Sync files
-        uses: SamKirkname: 🚀 Deploy website on push
-        
-        on:
-          push:
-            branches:
-              - main
-              - features/dev
-        
-        jobs:
-          web-deploy:
-            name: 🎉 Deploy
-            runs-on: ubuntu-latest
-            steps:
-              - name: 🚚 Get latest code
-                uses: actions/checkout@v4
-        
-              - name: Set FTP Credentials
-                id: set-ftp-credentials
-                run: |
-                  if [[ ${{ github.ref }} == 'refs/heads/features/dev' ]]; then
-                    echo "FTP_USERNAME=${{ secrets.ftp_username_dev }}" >> $GITHUB_ENV
-                    echo "FTP_PASSWORD=${{ secrets.ftp_password_dev }}" >> $GITHUB_ENV
-                  else
-                    echo "FTP_USERNAME=${{ secrets.ftp_username_portal }}" >> $GITHUB_ENV
-                    echo "FTP_PASSWORD=${{ secrets.ftp_password_portal }}" >> $GITHUB_ENV
-                  fi
-        
-              - name: 📂 Sync files
-                uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-                with:
-                  server: ${{ secrets.peernetics_host }}
-                  protocol: ftps
-                  port: 21
-                  local-dir: './'
-                  username: ${{ env.FTP_USERNAME }}
-                  password: ${{ env.FTP_PASSWORD }}
-        land/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.peernetics_host }}
           protocol: ftps
           port: 21
           local-dir: './'
-          env:
-            FTP_USERNAME: ${{ github.event_name == 'push' && github.ref == 'refs/heads/features/dev' ? secrets.ftp_username_dev : secrets.ftp_username_portal }}
-            FTP_PASSWORD: ${{ github.event_name == 'push' && github.ref == 'refs/heads/features/dev' ? secrets.ftp_password_dev : secrets.ftp_password_portal }}
+          username: ${{ env.FTP_USERNAME }}
+          password: ${{ env.FTP_PASSWORD }}
 
